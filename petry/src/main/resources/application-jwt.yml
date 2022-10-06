@@ -1,0 +1,10 @@
+jwt:
+  secret: base64 이게 무슨 소리람 일단 길게 쓰라니까 길게 한번 써볼게요 정말 너무 졸립고 귀찮다 귀찮다 귀찮다 귀찮다 귀찮다 귀찮다 귀찮다 귀찮다
+
+  access:
+    expiration: 80
+    header: Authorization
+
+  refresh:
+    expiration: 90
+    header: Authorization-refresh

@@ -1,17 +1,14 @@
 package com.petry.domain.user;
 
 import com.petry.domain.BaseTimeEntity;
-import com.petry.domain.pet.Pet;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@Table
+@Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -19,7 +16,7 @@ import java.util.List;
 @Builder
 public class User extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "uId")
+    @Column(name = "user_id")
     private long id; //PK
 
     @Column(nullable = false, unique = true)
@@ -34,11 +31,18 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, unique = true)
     private String uEmail; //이메일
 
-    @OneToMany(mappedBy = "user")
-    private List<Pet> pet = new ArrayList<>();
+    @Column(length = 1000)
+    private String refreshToken; //Refresh Token
 
-    @Enumerated(EnumType.STRING)
-    private Role role; //권한
+
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void destroyRefreshToken() {
+        this.refreshToken = null;
+    }
 
     //비밀번호 변경
     public void updatePassword(PasswordEncoder passwordEncoder, String uPassword) {
@@ -49,5 +53,8 @@ public class User extends BaseTimeEntity {
     public void encodePassword(PasswordEncoder passwordEncoder){
         this.uPassword = passwordEncoder.encode(uPassword);
     }
+
+
+
 
 }

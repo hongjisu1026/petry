@@ -1,11 +1,20 @@
+server:
+  port: 8081
 
 spring:
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:~/patery
+    url: jdbc:h2:tcp://localhost/~/petry1
     username: sa
     password: 522208
-
 
   jpa:
     properties:
@@ -16,6 +25,11 @@ spring:
     hibernate:
       ddl-auto: create
 
+    show-sql: true
+
+  profiles:
+    include: jwt
+
 logging:
   level:
     org:
@@ -25,6 +39,8 @@ logging:
 
       hibernate:
         SQL: debug
+        type: trace
 
-    board example:
-      board: info
+    petry:
+      petry: info
+

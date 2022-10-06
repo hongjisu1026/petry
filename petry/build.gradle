@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4'
+	id 'org.springframework.boot' version '2.6.12'
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'java'
 }
@@ -29,9 +29,14 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.5'
 
+
+	implementation 'com.auth0:java-jwt:4.0.0'
 }
 
 tasks.named('test') {

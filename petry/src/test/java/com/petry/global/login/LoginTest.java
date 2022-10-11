@@ -1,7 +1,7 @@
 package com.petry.global.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petry.domain.user.User;
+import com.petry.domain.user.entity.User;
 import com.petry.domain.user.repository.UserRepository;
 import org.springframework.http.MediaType;
 import org.junit.jupiter.api.BeforeEach;

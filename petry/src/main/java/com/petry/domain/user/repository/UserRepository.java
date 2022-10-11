@@ -1,6 +1,6 @@
 package com.petry.domain.user.repository;
 
-import com.petry.domain.user.User;
+import com.petry.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 

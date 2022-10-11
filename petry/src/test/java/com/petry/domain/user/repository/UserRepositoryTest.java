@@ -1,19 +1,15 @@
 package com.petry.domain.user.repository;
 
-import com.petry.domain.user.Role;
-import com.petry.domain.user.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static com.petry.domain.user.Role.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.jboss.logging.NDC.clear;
 import static org.junit.jupiter.api.Assertions.*;

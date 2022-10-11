@@ -41,6 +41,4 @@ logging:
         SQL: debug
         type: trace
 
-    petry:
-      petry: info
 

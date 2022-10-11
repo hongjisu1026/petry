@@ -2,7 +2,7 @@ package com.petry.global.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.petry.domain.user.User;
+import com.petry.domain.user.entity.User;
 import com.petry.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

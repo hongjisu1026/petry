@@ -3,10 +3,11 @@ package com.petry.global.login.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petry.domain.user.User;
+import com.petry.domain.user.entity.User;
 import com.petry.domain.user.repository.UserRepository;
 import com.petry.global.jwt.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,6 +101,7 @@ public class JwtFilterTest {
     }
 
     //AccessToken : 존재하지 않음, RefreshToken : 존재하지 않음
+    @DisplayName("테스트 확인")
     @Test
     public void Access_Refresh_X() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(LOGIN_RUL+"123")).andExpect(status().isForbidden());

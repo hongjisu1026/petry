@@ -1,12 +1,12 @@
-package com.petry.domain.user;
+package com.petry.domain.user.entity;
 
-import com.petry.domain.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "users")
 @Getter
@@ -35,7 +35,6 @@ public class User extends BaseTimeEntity{
     private String refreshToken; //Refresh Token
 
 
-
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
@@ -54,6 +53,20 @@ public class User extends BaseTimeEntity{
         this.uPassword = passwordEncoder.encode(uPassword);
     }
 
+
+    //회원 탈퇴시 모든 게시물 삭제
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diary> diaryList = new ArrayList<>();
+
+    //연관관계 메서드
+    public void addDiary(Diary diary) {
+        diaryList.add(diary);
+    }
+
+    //비밀번호 변경, 회원 탈퇴 시 비밀번호 확인
+    public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
+        return passwordEncoder.matches(checkPassword, getUPassword());
+    }
 
 
 

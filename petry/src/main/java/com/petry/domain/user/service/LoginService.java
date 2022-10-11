@@ -1,6 +1,6 @@
 package com.petry.domain.user.service;
 
-import com.petry.domain.user.User;
+import com.petry.domain.user.entity.User;
 import com.petry.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

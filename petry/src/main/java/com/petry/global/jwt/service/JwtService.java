@@ -1,10 +1,8 @@
 package com.petry.global.jwt.service;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.HandshakeRequest;
-import java.io.IOException;
+import java.util.Optional;
 
 public interface JwtService {
 
@@ -13,16 +11,19 @@ public interface JwtService {
 
     void updateRefreshToken(String account, String refreshToken);
     void destroyRefreshToken(String account);
-    void sendToken(HttpServletResponse response, String accessToken, String refreshToken) throws IOException;
+    void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken);
+    void sendAccessToken(HttpServletResponse response, String accessToken);
 
-    String extractAccessToken(HttpServletRequest request) throws IOException, ServletException;
-    String extractRefreshToken(HttpServletRequest request) throws IOException, ServletException;
-    String extractAccount(String accessToken);
+    Optional<String> extractAccessToken(HttpServletRequest request);
+    Optional<String> extractRefreshToken(HttpServletRequest request);
+    Optional<String> extractAccount(String accessToken);
 
 
     void setAccessTokenHeader(HttpServletResponse response, String accessToken);
 
     void setRefreshTokenHeader(HttpServletResponse response, String refreshToken);
+
+    boolean isTokenValid(String token);
 
 
 }

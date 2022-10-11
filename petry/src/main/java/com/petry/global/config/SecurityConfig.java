@@ -1,8 +1,11 @@
 package com.petry.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.petry.domain.user.repository.UserRepository;
 import com.petry.domain.user.service.LoginService;
+import com.petry.global.jwt.service.JwtService;
 import com.petry.global.login.filter.JsonAuthenticationFilter;
+import com.petry.global.login.filter.JwtAuthenticationProcessingFilter;
 import com.petry.global.login.handler.LoginFailureHandler;
 import com.petry.global.login.handler.LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final LoginService loginService;
     private final ObjectMapper objectMapper;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -56,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
+        return new LoginSuccessHandler(jwtService, userRepository);
     }
 
     @Bean
@@ -72,6 +77,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         jsonAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return jsonAuthenticationFilter;
     }
+
+    @Bean
+    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter() {
+        JwtAuthenticationProcessingFilter jsonLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, userRepository);
+
+        return jsonLoginFilter;
+    }
+
+
 
 
 

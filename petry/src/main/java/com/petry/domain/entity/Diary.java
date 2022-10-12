@@ -1,16 +1,17 @@
-package com.petry.domain.user.entity;
+package com.petry.domain.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-;
+;import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "diary")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@AllArgsConstructor
+@Builder
 public class Diary extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +29,6 @@ public class Diary extends BaseTimeEntity {
     @Column(nullable = false, name = "d_title")
     private String dTitle;
 
-    @Column
-    private String filePath;
-
 
     //연관관계 메서드
     public void confirmUser(User user) {
@@ -47,7 +45,4 @@ public class Diary extends BaseTimeEntity {
         this.dContent = content;
     }
 
-    public void updateFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 }

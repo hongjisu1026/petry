@@ -1,6 +1,7 @@
-package com.petry.domain.user.repository;
+package com.petry.domain.repository;
 
-import com.petry.domain.user.entity.User;
+import com.petry.domain.entity.User;
+import com.petry.domain.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

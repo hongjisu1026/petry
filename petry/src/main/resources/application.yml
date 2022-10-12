@@ -21,6 +21,7 @@ spring:
     password: 522208
 
   jpa:
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true

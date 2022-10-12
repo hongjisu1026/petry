@@ -1,11 +1,12 @@
-package com.petry.domain.user.controller;
+package com.petry.domain.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petry.domain.user.dto.UserSignUpDto;
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
-import com.petry.domain.user.service.UserService;
-import org.junit.jupiter.api.DisplayName;
+import com.petry.domain.dto.UserSignUpDto;
+import com.petry.domain.entity.User;
+import com.petry.domain.exception.UserException;
+import com.petry.domain.exception.UserExceptionType;
+import com.petry.domain.repository.UserRepository;
+import com.petry.domain.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -76,6 +76,14 @@ class UserControllerTest {
         return result.getResponse().getHeader(accessHeader);
     }
 
+    public void signUpFail(String signUpData) throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .post(SIGN_UP_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(signUpData))
+                .andExpect(status().isBadRequest());
+    }
+
     //회원가입 테스트
     @Test
     public void 회원가입_성공() throws Exception {
@@ -94,10 +102,10 @@ class UserControllerTest {
         String noNameSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(account, password, null, email));
         String noEmailSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(account, password, name, null));
 
-        signUp(noAccountSignUpData);
-        signUp(noPasswordSignUpData);
-        signUp(noNameSignUpData);
-        signUp(noEmailSignUpData);
+        signUpFail(noAccountSignUpData);
+        signUpFail(noPasswordSignUpData);
+        signUpFail(noNameSignUpData);
+        signUpFail(noEmailSignUpData);
 
         assertThat(userRepository.findAll().size()).isEqualTo(0);
     }
@@ -143,7 +151,7 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/user/password")
                 .header(accessHeader, BEARER+accessToken)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(updatePassword)).andExpect(status().isOk());
+                .content(updatePassword)).andExpect(status().isBadRequest());
 
         User user = userRepository.findByuAccount(account).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
         assertThat(passwordEncoder.matches(password, user.getUPassword())).isTrue();
@@ -210,7 +218,7 @@ class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/user")
                 .header(accessHeader, BEARER+accessToken)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(updatePassword)).andExpect(status().isOk());
+                .content(updatePassword)).andExpect(status().isBadRequest());
 
         User user = userRepository.findByuAccount(account).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
         assertThat(user).isNotNull();
@@ -303,9 +311,10 @@ class UserControllerTest {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/user/2123")
                         .characterEncoding(StandardCharsets.UTF_8)
                         .header(accessHeader, BEARER+accessToken))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isNotFound()).andReturn();
 
-        assertThat(result.getResponse().getContentAsString()).isEqualTo("");
+        Map<String, Integer> map = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+        assertThat(map.get("errorCode")).isEqualTo(UserExceptionType.NOT_FOUND_USER.getErrorCode());
     }
 
     @Test

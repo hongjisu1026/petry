@@ -1,8 +1,8 @@
 package com.petry.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petry.domain.user.repository.UserRepository;
-import com.petry.domain.user.service.LoginService;
+import com.petry.domain.repository.UserRepository;
+import com.petry.domain.service.LoginService;
 import com.petry.global.jwt.service.JwtService;
 import com.petry.global.login.filter.JsonAuthenticationFilter;
 import com.petry.global.login.filter.JwtAuthenticationProcessingFilter;

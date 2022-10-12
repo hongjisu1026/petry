@@ -1,7 +1,7 @@
 package com.petry.global.login.filter;
 
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.entity.User;
+import com.petry.domain.repository.UserRepository;
 import com.petry.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,7 +1,7 @@
-package com.petry.domain.user.service;
+package com.petry.domain.service;
 
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.entity.User;
+import com.petry.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
-package com.petry.domain.user.service;
+package com.petry.domain.service;
 
-import com.petry.domain.user.dto.UserInfoDto;
-import com.petry.domain.user.dto.UserSignUpDto;
+import com.petry.domain.dto.UserInfoDto;
+import com.petry.domain.dto.UserSignUpDto;
 
 public interface UserService {
 

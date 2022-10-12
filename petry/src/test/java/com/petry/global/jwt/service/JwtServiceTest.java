@@ -2,8 +2,8 @@ package com.petry.global.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.entity.User;
+import com.petry.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,8 @@ package com.petry.global.login.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.entity.User;
+import com.petry.domain.repository.UserRepository;
 import com.petry.global.jwt.service.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,6 +56,7 @@ public class JwtFilterTest {
 
     private static final String ACCESS_TOKEN_SUBJECT = "AccessToken";
     private static final String BEARER = "Bearer";
+    private static String LOGIN_FAIL_MESSAGE = "로그인에 실패하였습니다.";
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -240,6 +241,8 @@ public class JwtFilterTest {
                 .header(refreshHeader, BEARER+refreshToken)
                 .header(accessHeader, BEARER+accessToken))
                 .andExpect(status().isOk()).andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).isEqualTo(LOGIN_FAIL_MESSAGE);
     }
 
 

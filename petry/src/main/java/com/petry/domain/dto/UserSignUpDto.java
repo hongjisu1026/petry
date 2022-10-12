@@ -1,6 +1,6 @@
-package com.petry.domain.user.dto;
+package com.petry.domain.dto;
 
-import com.petry.domain.user.entity.User;
+import com.petry.domain.entity.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ public record UserSignUpDto(@NotBlank(message = "아이디를 입력해주세요
                             @NotBlank(message = "이름을 입력해주세요") @Size(min=2, message = "사용자 이름이 너무 짧습니다.")
                             @Pattern(regexp = "^[A-Za-z가-힣]+$", message = "사용자 이름은 한글 또는 알파벳만 입력해주세요.") String name,
                             @NotBlank(message = "이메일을 입력해주세요")
-                            @Email(message = "이메일 형식에 맞지않습니다.") String email) {
+                            @Email(message = "이메일 형식이 올바르지 않습니다.") String email) {
 
     public User toEntity() {
         return User.builder().uAccount(account).uPassword(password).uName(name).uEmail(email).build();

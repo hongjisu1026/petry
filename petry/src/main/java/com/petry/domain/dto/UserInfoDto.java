@@ -1,6 +1,6 @@
-package com.petry.domain.user.dto;
+package com.petry.domain.dto;
 
-import com.petry.domain.user.entity.User;
+import com.petry.domain.entity.User;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

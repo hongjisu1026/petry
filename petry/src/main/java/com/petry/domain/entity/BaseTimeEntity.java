@@ -1,4 +1,4 @@
-package com.petry.domain.user.entity;
+package com.petry.domain.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

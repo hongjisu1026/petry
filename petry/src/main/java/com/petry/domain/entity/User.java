@@ -1,8 +1,7 @@
-package com.petry.domain.user.entity;
+package com.petry.domain.entity;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;

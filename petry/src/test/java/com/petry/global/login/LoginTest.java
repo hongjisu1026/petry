@@ -1,8 +1,9 @@
 package com.petry.global.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.entity.User;
+import com.petry.domain.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,12 +41,19 @@ public class LoginTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Value("${jwt.access.header}")
+    private String accessHeader;
+    @Value("${jwt.refresh.header")
+    private String refreshHeader;
+
     private static String KEY_ACCOUNT = "account";
     private static String KEY_PASSWORD = "password";
     private static String ACCOUNT = "account";
     private static String PASSWORD = "qwer1234";
 
     private static String LOGIN_RUL = "/login";
+
+    private static String LOGIN_FAIL_MESSAGE = "로그인에 실패하였습니다.";
 
     private void clear() {
         em.flush();
@@ -91,20 +100,32 @@ public class LoginTest {
     public void 로그인_실패_아이디오류() throws Exception {
         Map<String, String> map = getAccountPasswordMap(ACCOUNT+"123", PASSWORD);
 
-        MvcResult result = perform(LOGIN_RUL, APPLICATION_JSON, map)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post(LOGIN_RUL)
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(map)))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
+
+        assertThat(result.getResponse().getHeader(accessHeader)).isNull();
+        assertThat(result.getResponse().getHeader(refreshHeader)).isNull();
     }
 
     @Test
     public void 로그인_실패_비밀번호오류() throws Exception {
         Map<String, String> map = getAccountPasswordMap(ACCOUNT, PASSWORD+"123");
 
-        MvcResult result = perform(LOGIN_RUL, APPLICATION_JSON, map)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post(LOGIN_RUL)
+                .contentType(APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(map)))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
+
+        assertThat(result.getResponse().getHeader(accessHeader)).isNull();
+        assertThat(result.getResponse().getHeader(refreshHeader)).isNull();
     }
 
     @Test
@@ -120,10 +141,15 @@ public class LoginTest {
     public void 로그인_데이터형식오류() throws Exception {
         Map<String, String> map = getAccountPasswordMap(ACCOUNT, PASSWORD);
 
-        MvcResult result = perform(LOGIN_RUL, APPLICATION_FORM_URLENCODED, map)
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+                .post(LOGIN_RUL)
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .content(objectMapper.writeValueAsString(map)))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn();
+
+        assertThat(result.getResponse().getContentAsString()).isEqualTo(LOGIN_FAIL_MESSAGE);
     }
 
     @Test

@@ -1,10 +1,10 @@
-package com.petry.domain.user.controller;
+package com.petry.domain.controller;
 
-import com.petry.domain.user.dto.UpdatePasswordDto;
-import com.petry.domain.user.dto.UserInfoDto;
-import com.petry.domain.user.dto.UserSignUpDto;
-import com.petry.domain.user.dto.UserWithdrawDto;
-import com.petry.domain.user.service.UserService;
+import com.petry.domain.dto.UpdatePasswordDto;
+import com.petry.domain.dto.UserWithdrawDto;
+import com.petry.domain.dto.UserInfoDto;
+import com.petry.domain.dto.UserSignUpDto;
+import com.petry.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

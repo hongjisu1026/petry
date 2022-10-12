@@ -1,4 +1,4 @@
-package com.petry.domain.user.dto;
+package com.petry.domain.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

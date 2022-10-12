@@ -1,9 +1,11 @@
-package com.petry.domain.user.service;
+package com.petry.domain.service;
 
-import com.petry.domain.user.dto.UserInfoDto;
-import com.petry.domain.user.dto.UserSignUpDto;
-import com.petry.domain.user.entity.User;
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.entity.User;
+import com.petry.domain.dto.UserInfoDto;
+import com.petry.domain.dto.UserSignUpDto;
+import com.petry.domain.exception.UserException;
+import com.petry.domain.exception.UserExceptionType;
+import com.petry.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,17 +24,17 @@ public class UserServiceImpl implements UserService{
         user.encodePassword(passwordEncoder);
 
         if(userRepository.findByuAccount(userSignUpDto.account()).isPresent()) {
-            throw new Exception("이미 존재하는 아이디입니다.");
+            throw new UserException(UserExceptionType.ALREADY_EXIST_ACCOUNT);
         }
         userRepository.save(user);
     }
 
     @Override
     public void updatePassword(String checkPassword, String toBePassword) throws Exception {
-        User user = userRepository.findByuAccount(SecurityUtil.getLoginAccount()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다."));
+        User user = userRepository.findByuAccount(SecurityUtil.getLoginAccount()).orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
 
         if(!user.matchPassword(passwordEncoder, checkPassword)) {
-            throw new Exception("비밀번호가 일치하지 않습니다.");
+            throw new UserException(UserExceptionType.WRONG_PASSWORD);
         }
 
         user.updatePassword(passwordEncoder, toBePassword);
@@ -40,10 +42,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void withdraw(String checkPassword) throws Exception {
-        User user = userRepository.findByuAccount(SecurityUtil.getLoginAccount()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다."));
+        User user = userRepository.findByuAccount(SecurityUtil.getLoginAccount()).orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
 
         if(!user.matchPassword(passwordEncoder, checkPassword)) {
-            throw new Exception("비밀번호가 일치하지 않습니다.");
+            throw new UserException(UserExceptionType.WRONG_PASSWORD);
         }
 
         userRepository.delete(user);
@@ -51,13 +53,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserInfoDto getInfo(Long id) throws Exception {
-        User findUser = userRepository.findById(id).orElseThrow(() -> new Exception("존재하지 않는 회원입니다."));
+        User findUser = userRepository.findById(id).orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
         return new UserInfoDto(findUser);
     }
 
     @Override
     public UserInfoDto getMyInfo() throws Exception {
-        User findUser = userRepository.findByuAccount(SecurityUtil.getLoginAccount()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다."));
+        User findUser = userRepository.findByuAccount(SecurityUtil.getLoginAccount()).orElseThrow(() -> new UserException(UserExceptionType.NOT_FOUND_USER));
         return new UserInfoDto(findUser);
     }
 

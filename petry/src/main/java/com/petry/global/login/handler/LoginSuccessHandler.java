@@ -1,6 +1,6 @@
 package com.petry.global.login.handler;
 
-import com.petry.domain.user.repository.UserRepository;
+import com.petry.domain.repository.UserRepository;
 import com.petry.global.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

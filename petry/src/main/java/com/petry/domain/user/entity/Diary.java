@@ -14,18 +14,18 @@ import javax.persistence.*;
 public class Diary extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "diary_id")
+    @Column(name = "d_id")
     private Long id; //pk
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "u_id")
     private User user;
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, name = "d_content")
     private String dContent;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "d_title")
     private String dTitle;
 
     @Column

@@ -3,7 +3,6 @@ server:
 
 spring:
   main:
-    web-application-type: none
     allow-bean-definition-overriding: true
   h2:
     console:
@@ -11,6 +10,11 @@ spring:
       path: /h2-console
 
   datasource:
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+    #url: jdbc:mysql://127.0.0.1:3306/?user=root
+    #username: root
+    #password: 1234
+
     driver-class-name: org.h2.Driver
     url: jdbc:h2:tcp://localhost/~/petry1
     username: sa

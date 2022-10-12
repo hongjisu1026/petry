@@ -2,6 +2,7 @@ package com.petry.domain.user.entity;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -16,19 +17,20 @@ import java.util.List;
 @Builder
 public class User extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "u_id")
     private long id; //PK
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "u_account")
     private String uAccount; //ID
 
+    @Column(name = "u_password")
     @Length(min = 8)
     private String uPassword; //PWD
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "u_name")
     private String uName; //이름(실명)
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "u_email")
     private String uEmail; //이메일
 
     @Column(length = 1000)
@@ -55,6 +57,7 @@ public class User extends BaseTimeEntity{
 
 
     //회원 탈퇴시 모든 게시물 삭제
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Diary> diaryList = new ArrayList<>();
 

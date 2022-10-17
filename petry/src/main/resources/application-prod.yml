@@ -1,0 +1,53 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  banner:
+    location: prod-banner.txt
+
+  datasource:
+    driver-class-name: org.h2.Driver
+      url: jdbc:h2:tcp://localhost/~/petry1
+      username: sa
+      password: 522208
+  data:
+    web:
+      pageable:
+        default-page-size: 20  #페이징 할 때 기본값, 20개씩 조회
+
+
+
+
+  servlet:
+    multipart:
+      max-request-size: 5MB  #업로드 파일 크기 총량 제한
+      max-file-size: 2MB     #업로드 파일 크기 제한
+
+
+
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100 #배치 사이즈 (Collection 조회 최적화)
+
+
+    hibernate:
+      ddl-auto: none
+
+
+    open-in-view: false #OSIV 사용하지 않기
+
+
+
+
+
+logging:
+  level:
+    p6spy: error
+
+
+    org:
+      apache:
+        coyote:
+          http11: info #debug

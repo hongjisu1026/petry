@@ -33,6 +33,9 @@ spring:
     show-sql: true
 
   profiles:
+    group:
+      "dev-profile": "dev,jwt"
+      "prod-profile": "prod,jwt"
     include: jwt
 
 logging:
@@ -47,3 +50,5 @@ logging:
         type: trace
 
 
+file:
+  dir: D:\petry_img
